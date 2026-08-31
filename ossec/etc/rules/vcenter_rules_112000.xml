@@ -1,0 +1,61 @@
+<group name="vmware-vcenter-syslog,">
+
+  <rule id="112010" level="3">
+    <decoded_as>vmware-vcenter</decoded_as>
+    <description>VMware VCENTER syslogs grouped.</description>
+  </rule>
+
+  <rule id="112051" level="3">
+    <if_sid>112010</if_sid>
+    <match type="pcre2">(?i)logged in|Successful login</match>
+    <description>VMware vcenter: Login user $(dstuser) with IP $(srcip) .</description>
+  </rule>
+
+  <rule id="112052" level="3">
+    <if_sid>112010</if_sid>
+    <match type="pcre2">(?i)logged out|Logout</match>
+    <description>VMware vcenter: Logged out  user $(dstuser) with IP $(srcip) .</description>
+  </rule>
+  
+  <rule id="112053" level="8">
+    <if_sid>112010</if_sid>
+    <match type="pcre2">(?i)authentication failure|Failed login</match>
+    <description>VMware vcenter: Failed login user $(dstuser) with IP $(srcip) .</description>
+    <group>authentication_failed,</group>
+  </rule>
+
+  <rule id="112054" level="3">
+    <if_sid>112010</if_sid>
+    <match type="pcre2">(?i)Guest operation</match>
+    <description>VMware vcenter: Guest operation on virtual machine</description>
+  </rule>
+ 
+   <rule id="112055" level="3">
+    <if_sid>112010</if_sid>
+    <match type="pcre2">(?i)Create virtual machine snapshot</match>
+    <description>VMware vcenter: Create virtual machine snapshot</description>
+  </rule>
+
+   <rule id="112056" level="3">
+    <if_sid>112010</if_sid>
+    <match type="pcre2">(?i)Veeam Backup</match>
+    <description>VMware vcenter: Veeam Backup Job</description>
+  </rule>
+  
+  <rule id="112081" level="0">
+    <if_sid>112051,112052</if_sid>
+    <srcip>127.0.0.1</srcip>
+    <user type="pcre2">^root$|^VSPHERE.LOCAL\\vpxd-extension|^VSPHERE.LOCAL\\vsphere-webclient|^dcui$|^VSPHERE.LOCAL\\machine</user>
+    <description>VMware vcenter: Login or Logout user from 127.0.0.1 : exclude</description>
+    <group>vmware_exclude,</group>
+  </rule>
+
+  <rule id="112082" level="0">
+    <if_sid>112051,112052</if_sid>
+    <srcip>192.168.213.51</srcip>
+    <user type="pcre2">^zabbix$|^VSPHERE\.LOCAL\\zabbix$</user>
+    <description>VMware vcenter: Login or Logout user from zabbix 192.168.213.51 : exclude</description>
+    <group>vmware_exclude,</group>
+  </rule>
+  
+</group>

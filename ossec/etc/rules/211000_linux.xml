@@ -1,0 +1,10 @@
+<group name="syslog,sshd,local,">
+  
+  <rule id="211001" level="7">
+    <if_sid>5721</if_sid>
+    <match>No supported authentication methods available</match>
+    <description>sshd: No supported authentication methods available.</description>
+    <group>authentication_failed,</group>
+  </rule>
+  
+</group>

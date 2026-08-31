@@ -1,0 +1,80 @@
+<!-- Local rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!-- Example -->
+<group name="windows,local,">
+
+  <rule id="131201" level="3">
+    <if_sid>61100</if_sid>
+    <field name="win.system.eventID">^1074$</field>
+    <description>Windows Restarted</description>
+    <options>no_full_log</options>
+  </rule>
+  
+  <rule id="131202" level="3">
+    <if_sid>61101</if_sid>
+    <field name="win.system.severityValue">^WARNING$</field>
+    <description>Windows System warning event</description>
+    <options>no_full_log</options>
+  </rule>
+  
+  <rule id="131203" level="3">
+    <if_sid>60101</if_sid>
+    <field name="win.system.severityValue">^WARNING$</field>
+    <options>no_full_log</options>
+    <description>Windows security warning event.</description>
+  </rule>
+  
+  <rule id="131204" level="3">
+    <if_sid>60601</if_sid>
+    <field name="win.system.severityValue">^WARNING$</field>
+    <options>no_full_log</options>
+    <description>Windows application warning event.</description>
+  </rule>
+
+  <rule id="131205" level="3">
+    <if_sid>60131</if_sid>
+    <field name="win.eventdata.status">0x20</field>
+    <options>no_full_log</options>
+    <description>A Kerberos service ticket was requested timeout</description>
+    <group>windows_security</group>
+   </rule>
+
+  <rule id="131206" level="3">
+    <if_sid>61138</if_sid>
+    <options>no_full_log</options>
+    <description>Sevice was registered : $(win.eventdata.serviceName)</description>
+    <group>service_registered</group>
+  </rule>
+
+  <rule id="131207" level="3">
+    <if_sid>131206</if_sid>
+    <match>VeeamVssSupport|MpKslDrv.sys|testsrv</match>
+    <options>no_full_log</options>
+    <description>Ignore sevice was registered : $(win.eventdata.serviceName)</description>
+  </rule>
+
+  <rule id="131208" level="3">
+    <if_sid>60110</if_sid>
+    <field name="win.eventdata.passwordLastSet">\.+</field>
+    <description>User changed password</description>
+    <group>account_changed</group>
+  </rule>
+
+  <rule id="131209" level="3">
+    <if_sid>60205</if_sid>
+    <field name="win.eventdata.targetUserName" type="pcre2">.*\$$</field>
+    <description>Computer Multiple Windows audit failure events</description>
+    <group>comp_authentication_failures</group>
+  </rule>
+
+  <rule id="131210" level="3">
+    <if_sid>60104</if_sid>
+    <field name="win.eventdata.targetUserName" type="pcre2">.*\$$</field>
+    <description>Computer Windows audit failure events</description>
+    <group>comp_authentication_failures</group>
+  </rule>
+  
+</group>

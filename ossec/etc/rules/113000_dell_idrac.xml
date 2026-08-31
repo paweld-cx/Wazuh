@@ -1,0 +1,36 @@
+<group name="dell-idrac,syslog,">
+  
+  <rule id="113000" level="3">
+    <decoded_as>dell-idrac</decoded_as>
+    <description>Dell idrac : [$(idrac_host)] - Dell idrac syslogs grouped.</description>
+  </rule>
+  
+  <rule id="113001" level="3">
+    <if_sid>113000</if_sid>
+    <match>USR0030</match>
+    <description>Dell idrac : [$(idrac_host)] - User with IP $(srcip) was logged in.</description>
+    <group>authentication_success,</group>
+  </rule>
+  
+   <rule id="113002" level="7">
+    <if_sid>113000</if_sid>
+    <match>USR0031|USR0033</match>
+    <description>Dell idrac : [$(idrac_host)] - User with IP $(srcip) Unable to log in.</description>
+    <group>authentication_failed,</group>
+  </rule>
+
+   <rule id="113003" level="10">
+    <if_sid>113000</if_sid>
+    <match>USR0034</match>
+    <description>Dell idrac : [$(idrac_host)] - User with IP $(srcip) Login attempt 5 times alert.</description>
+    <group>authentication_failed,</group>
+  </rule>  
+  
+  <rule id="113004" level="3">
+    <if_sid>113000</if_sid>
+    <match>USR0032</match>
+    <description>Dell idrac : [$(idrac_host)] - User with IP $(srcip) was logged off.</description>
+    <group>authentication_success,</group>
+  </rule>
+  
+</group>

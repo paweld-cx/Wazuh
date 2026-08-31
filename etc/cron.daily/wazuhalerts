@@ -1,0 +1,4 @@
+#!/bin/sh
+find /var/ossec/logs/alerts/ -name "*" -type f -mtime +7 -exec rm -f {} \;
+find /var/ossec/logs/archives/ -name "*" -type f -mtime +7 -exec rm -f {} \;
+

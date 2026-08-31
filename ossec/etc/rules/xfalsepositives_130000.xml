@@ -1,0 +1,47 @@
+<group name="falsepositives,">
+
+  <rule id="130001" level="3">
+    <if_group>rootcheck</if_group>
+    <match>/var/log/Xorg.0.log</match>
+    <description>Ignore false positive for /var/log/Xorg.0.log</description>
+  </rule>
+
+  <rule id="130002" level="3">
+    <if_group>rootcheck</if_group>
+    <match>Trojaned version of file '/usr/bin|Trojaned version of file '/bin</match>
+    <description>Ignore false positive rootcheck on linux </description>
+  </rule>
+
+  <rule id="130003" level="3">
+    <if_group>rootcheck</if_group>
+    <match>NTFS Alternate data stream found: 'C:\Program Files</match>
+    <description>Ignore false positive for NTFS Alternate data stream found: C:\Program Files</description>
+  </rule>
+
+  <rule id="130004" level="3">
+    <if_group>rootcheck</if_group>
+    <match>Files hidden inside directory '/tmp'|Anomaly detected in file '/tmp/.mount_Coll</match>
+    <description>Ignore false positive for nextcloud tmp</description>
+  </rule>
+
+  <rule id="130005" level="3">
+    <if_group>rootcheck</if_group>
+    <match>File '/var/lib/docker/volumes/greenbone-community-edition_openvas_log_data_vol/_data/openvas.log'</match>
+    <description>Ignore false positive for greenbone docker</description>
+  </rule>
+ 
+  <rule id="130006" level="3">
+    <if_group>rootcheck</if_group>
+    <match>Rootkit 'ZK' detected by the presence of file '/etc/sysconfig/console/load.zk'</match>
+    <description>Ignore false positive for rootkit ZK Rocky Linux</description>
+  </rule>
+
+  <rule id="130007" level="3">
+    <if_sid>31516</if_sid>
+    <url>/server-status</url>
+    <srcip>127.0.0.1</srcip>
+    <description>Suspicious URL access : exclude</description>
+    <group>web,</group>
+  </rule>
+  
+</group>

@@ -1,0 +1,9 @@
+<decoder name="me4024-syslog">
+  <prematch>^me4024-syslog: </prematch>
+</decoder>
+
+<decoder name="me4024-syslog">
+  <parent>me4024-syslog</parent>
+  <regex type="pcre2">\S+ (\d+-\d+-\d+T\d+:\S+) (\S+)</regex>
+  <order>logtimestamp, me4024_host</order>
+</decoder>

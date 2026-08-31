@@ -1,0 +1,61 @@
+<group name="windows,local,">
+
+  <rule id="60204" level="10" frequency="5" timeframe="240" overwrite="yes">
+    <if_matched_group>authentication_failed</if_matched_group>
+    <same_field>win.eventdata.workstationName</same_field>
+    <options>no_full_log</options>
+    <description>Multiple Windows logon failures.</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+    <group>authentication_failures,gdpr_IV_32.2,gdpr_IV_35.7.d,hipaa_164.312.b,nist_800_53_AC.7,nist_800_53_AU.14,nist_800_53_SI.4,pci_dss_10.2.4,pci_dss_10.2.5,pci_dss_11.4,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+
+  <rule id="60205" level="10" frequency="5" timeframe="180" overwrite="yes">
+    <if_matched_sid>60104</if_matched_sid>
+    <same_field>win.eventdata.ipAddress</same_field>
+    <description>Multiple Windows audit failure events</description>
+    <options>no_full_log</options>
+    <group>authentication_failures,pci_dss_10.6.1,gdpr_IV_35.7.d,hipaa_164.312.b,nist_800_53_AU.6,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+  
+  <rule id="92651" level="3" overwrite="yes">
+    <if_sid>60106</if_sid>
+    <field name="win.eventdata.ipAddress" type="pcre2">(?:[0-9]{1,3}\.){3}[0-9]{1,3}</field>
+    <field name="win.eventdata.ipAddress" type="pcre2" negate="yes">127\.0\.0\.1</field>
+    <description>Successful Remote Logon by user:$(win.eventdata.targetDomainName)\$(win.eventdata.targetUserName) from $(win.eventdata.ipAddress).</description>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+    <group>authentication_success,gdpr_IV_32.2,gpg13_7.1,gpg13_7.2,hipaa_164.312.b,nist_800_53_AC.7,nist_800_53_AU.14,pci_dss_10.2.5,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+  </rule>
+  
+</group>
+
+<group name="syslog,local,">
+  
+  <rule id="5721" level="3"  overwrite="yes">
+    <if_sid>5700</if_sid>
+    <match>Received disconnect from</match>
+    <description>sshd: System disconnected from sshd.</description>
+    <group>sshd,</group>
+  </rule>
+
+  <rule id="81618" level="3" overwrite="yes">
+    <if_sid>81603</if_sid>
+    <match>type=traffic|type="traffic"</match>
+    <description>Fortigate: Traffic to be aware of.</description>
+    <group>fortigate,</group>
+  </rule>
+
+   <rule id="31533" level="10" timeframe="20" frequency="20"  overwrite="yes">
+    <if_matched_sid>31530</if_matched_sid>
+    <same_source_ip />
+    <description>High amount of POST requests in a small period of time (likely bot).</description>
+   <group>web,pci_dss_6.5,pci_dss_11.4,gdpr_IV_35.7.d,nist_800_53_SA.11,nist_800_53_SI.4,tsc_CC6.6,tsc_CC7.1,tsc_CC8.1,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+    <mitre>
+      <id>T1498</id>
+    </mitre>
+   </rule>
+   
+</group>  

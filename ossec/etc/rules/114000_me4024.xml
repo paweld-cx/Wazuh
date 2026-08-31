@@ -1,0 +1,15 @@
+<group name="me4024,syslog,">
+  
+  <rule id="114000" level="3">
+    <decoded_as>me4024-syslog</decoded_as>
+    <description>ME4024 syslogs grouped.</description>
+  </rule>
+  
+  <rule id="114001" level="3">
+    <if_sid>114000</if_sid>
+    <match>USR0030</match>
+    <description>was logged in.</description>
+    <group>authentication_success,</group>
+  </rule>
+   
+</group>

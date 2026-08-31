@@ -1,0 +1,15 @@
+<group name="ossec,syscheck,fim_suspicious,">
+
+  <rule id="100401" level="10">
+    <if_sid>554</if_sid>
+    <match type="pcre2">(?i)\.(bat|cmd|exe|vbs|vbe|js|jse|wsf|hta|scr|dll|com|ps1)</match>
+    <description>FIM : Suspicious script/binary created</description>
+  </rule>
+
+  <rule id="100402" level="8">
+    <if_sid>550</if_sid>
+    <match type="pcre2">(?i)\.(bat|cmd|exe|vbs|vbe|js|jse|wsf|hta|scr|dll|com|ps1)</match>
+    <description>FIM : Suspicious script/binary modified</description>
+  </rule>
+
+</group>

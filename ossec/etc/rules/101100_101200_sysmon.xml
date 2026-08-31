@@ -1,0 +1,183 @@
+<!-- Log Sysmon Alerts -->
+<group name="windows,sysmon,">
+
+        <rule id="101122" level="5">
+                <if_sid>61650</if_sid>
+                <description>Sysmon - Event 22: DNS Query : $(win.eventdata.queryName)</description>
+                <options>no_full_log</options>
+                <group>sysmon_event_22,</group>
+        </rule>
+
+        <rule id="101101" level="5">
+                <if_sid>61603</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event1,</group>
+                <description>Sysmon - Event 1: Process creation : $(win.eventdata.image).</description>
+        </rule>
+
+        <rule id="101102" level="5">
+                <if_sid>61604</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event2,</group>
+                <description>Sysmon - Event 2: A process changed a file creation time.</description>
+        </rule>
+
+        <rule id="101103" level="5">
+                <if_sid>61605</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event3,</group>
+                <description>Sysmon - Event 3: Network connection to $(win.eventdata.destinationIp)</description>
+        </rule>
+
+        <rule id="101104" level="5">
+                <if_sid>61606</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event4,</group>
+                <description>Sysmon - Event 4: Sysmon service state changed.</description>
+        </rule>
+
+        <rule id="101105" level="5">
+                <if_sid>61607</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event5,</group>
+                <description>Sysmon - Event 5: Process terminated.</description>
+        </rule>
+
+        <rule id="101106" level="5">
+                <if_sid>61608</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event6,</group>
+                <description>Sysmon - Event 6: Driver loaded.</description>
+        </rule>
+
+        <rule id="101107" level="5">
+                <if_sid>61609</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event7,</group>
+                <description>Sysmon - Event 7: Image loaded.</description>
+        </rule>
+
+        <rule id="101108" level="5">
+                <if_sid>61610</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event8,</group>
+                <description>Sysmon - Event 8: CreateRemoteThread.</description>
+        </rule>
+
+        <rule id="101109" level="5">
+                <if_sid>61611</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event9,</group>
+                <description>Sysmon - Event 9: RawAccessRead.</description>
+        </rule>
+
+        <rule id="101110" level="5">
+                <if_sid>61612</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event10,</group>
+                <description>Sysmon - Event 10: ProcessAccess.</description>
+        </rule>
+
+        <rule id="101111" level="5">
+                <if_sid>61613</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event11,</group>
+                <description>Sysmon - Event 11: FileCreate.</description>
+        </rule>
+
+        <rule id="101112" level="5">
+                <if_sid>61614</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event12,</group>
+                <description>Sysmon - Event 12: RegistryEvent (Object create and delete).</description>
+        </rule>
+
+        <rule id="101113" level="5">
+                <if_sid>61615</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event13,</group>
+                <description>Sysmon - Event 13: RegistryEvent (Value Set).</description>
+        </rule>
+
+        <rule id="101114" level="5">
+                <if_sid>61616</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event14,</group>
+                <description>Sysmon - Event 14: RegistryEvent (Key and Value Rename).</description>
+        </rule>
+
+        <rule id="101115" level="5">
+                <if_sid>61617</if_sid>
+                <options>no_full_log</options>
+                <group>sysmon_event15,</group>
+                <description>Sysmon - Event 15: FileCreateStreamHash.</description>
+        </rule>
+ 
+  <rule id="101131" level="3">
+    <if_sid>92101</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\powershell\.exe</field>
+    <field name="win.eventdata.protocol">^tcp$</field>
+    <options>no_full_log</options>
+    <group>sysmon_event3,</group>
+    <description>Sysmon - Event 3: Powershell process communicating over TCP to $(win.eventdata.destinationIp)</description>
+  </rule>
+
+  <rule id="101132" level="3">
+    <if_sid>92108</if_sid>
+    <field name="win.eventdata.destinationPort" type="pcre2">^3389$</field>
+    <options>no_full_log</options>
+    <group>sysmon_event3,</group>
+    <description>Sysmon - Event 3: Detected RDP port network activity from $(win.eventdata.sourceIp) to $(win.eventdata.destinationIp)</description>
+  </rule>
+
+<!-- Exclude Sysmon Alerts -->
+
+  <rule id="101201" level="3">
+    <if_sid>101122</if_sid>
+    <options>no_full_log</options>
+    <group>sysmon_event_22_excluded,</group>
+    <field name="win.eventdata.queryName" type="pcre2">ntcomplex.complex.pl|complex.pl|complex.com.pl|complex.net.pl|lexbufiks1.local</field>
+    <description>Sysmon - Event 22 excluded : DNS Query : $(win.eventdata.queryName)</description>
+  </rule>
+
+  <rule id="101202" level="3">
+    <if_sid>101122</if_sid>
+    <options>no_full_log</options>
+    <group>sysmon_event_22_excluded,</group>
+    <list field="win.eventdata.queryName" lookup="match_key">etc/lists/whitelistDNS</list>
+    <description>Sysmon - Event 22 excluded : DNS Query : $(win.eventdata.queryName)</description>
+  </rule>
+  
+  <rule id="101203" level="3">
+    <if_sid>101103,101131,101132</if_sid>
+    <options>no_full_log</options>
+    <group>sysmon_event3_excluded,</group>
+    <field name="win.eventdata.destinationIp" type="pcre2">^(127\.0\.0\.|224\.0\.0\.|169\.254\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.|52\.123\.)</field>
+    <description>Sysmon - Event 3 excluded local or trusted ip : Network connection to $(win.eventdata.destinationIp)</description>
+  </rule>
+
+  <rule id="101204" level="3">
+    <if_sid>101103,101131,101132</if_sid>
+    <options>no_full_log</options>
+    <group>sysmon_event3_excluded,</group>
+    <field name="win.eventdata.destinationIsIpv6">true</field>
+    <description>Sysmon - Event 3 excluded ipv6 : Network connection to $(win.eventdata.destinationIp)</description>
+  </rule>
+
+  <rule id="101205" level="3">
+    <if_sid>101103,101131,101132</if_sid>
+    <options>no_full_log</options>
+    <group>sysmon_event3_excluded,</group>
+    <list field="win.eventdata.destinationIp" lookup="match_key">etc/lists/whitelistIP</list>
+    <description>Sysmon - Event 3 excluded whitelistIP : Network connection to $(win.eventdata.destinationIp)</description>
+  </rule>
+
+  <rule id="101206" level="3">
+    <if_sid>101101</if_sid>
+    <options>no_full_log</options>
+    <group>sysmon_event1_excluded,</group>
+    <field name="win.eventdata.image" type="pcre2">C:\\\\Windows\\\\System32\\\\wbem\\\\WmiPrvSE.exe|C:\\\\Windows\\\\SysWOW64\\\\wbem\\\\WmiPrvSE.exe|\\\\Google\\\\GoogleUpdater|\\\\Microsoft\\\\EdgeUpdate|C:\\\\Windows\\\\System32\\\\inetsrv\\\\appcmd.exe</field>
+    <description>Sysmon - Event 1: Process creation excluded: $(win.eventdata.image).</description>
+  </rule>
+
+</group>

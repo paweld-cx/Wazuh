@@ -1,0 +1,21 @@
+<decoder name="dell-idrac">
+  <prematch>^dell-idrac: </prematch>
+</decoder>
+
+<decoder name="dell-idrac">
+  <parent>dell-idrac</parent>
+  <regex type="pcre2">\S+ (\d+-\d+-\d+T\d+:\d+:\d+.\d+-\d+:\d+) (\S+)</regex>
+  <order>logtimestamp, idrac_host</order>
+</decoder>
+
+<decoder name="dell-idrac">
+  <parent>dell-idrac</parent>
+  <regex type="pcre2">\S+ (\d+-\d+-\d+T\d+:\d+:\d+.\S+) (\S+)</regex>
+  <order>logtimestamp, idrac_host</order>
+</decoder>
+
+<decoder name="dell-idrac">
+  <parent>dell-idrac</parent>
+  <regex type="pcre2">from (\S+)</regex>
+  <order>srcip</order>
+</decoder>
